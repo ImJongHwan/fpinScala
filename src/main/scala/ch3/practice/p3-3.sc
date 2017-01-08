@@ -17,13 +17,14 @@ object List {
   def apply[A](as: A*): List[A] =
     if(as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
+
+  // practice 3.3
+  def setHead[A](m: A, ms: List[A]) = ms match {
+    case Nil => Cons(m, Nil)
+    case Cons(h, t) => Cons(m, t)
+  }
 }
 
-// practice 3-1, verify
-val x = List(1,2,3,4,5) match {
-  case Cons(x, Cons(2, Cons(4, _))) => x
-  case Nil => 42
-  case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
-  case Cons(h, t) => h + List.sum(t)
-  case _ => 101
-}
+// verify
+val list: List[Int] = List(1, 2, 3, 4, 5)
+val verify = List.setHead(6, list)
