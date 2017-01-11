@@ -29,6 +29,6 @@ object List {
   def product2(ns: List[Double]) = foldRight(ns, 1.0)(_*_)
 }
 
-// practice 3.8 todo
+// practice 3.8
 List.foldRight(List(1,2,3), Nil:List[Int])(Cons(_, _))
 List(1,2,3)
