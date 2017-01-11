@@ -28,7 +28,7 @@ object List {
   def foldLeft[A, B](as: List[A], z: B)(f: (B,A) => B): B =
   as match {
     case Nil => z
-    case Cons(x, xs) => f(foldLeft(xs, z)(f), x)
+    case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
   }
 
   def sum2(ns: List[Int]) = foldRight(ns, 0)((x, y) => x + y)
