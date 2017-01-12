@@ -44,6 +44,9 @@ object List {
       case Nil => z
       case _ => foldLeft(reverseFold(as), z)((y, x) => f(x, y))
   }
+
+  def foldRight3[A, B](as:List[A], z:B)(f:(A,B) => B): B =
+    foldLeft(as, (b:B) => b)((g, a) => b => g(f(a, b)))(z)
 }
 
 val list:List[String] = List("a", "b", "c", "d", "e")

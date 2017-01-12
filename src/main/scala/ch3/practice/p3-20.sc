@@ -32,6 +32,12 @@ object List {
     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
   }
 
+  // practice 3.14
+  def append[A](fs:List[A], bs:List[A]):List[A] = foldRight(fs, bs)((x,y) => Cons(x, y))
+
+  // practice 3.15
+  def flatten[A](fs: List[List[A]]): List[A] = foldRight(fs, Nil: List[A])((x, y) => List.append(x, y))
+
   // practice 3.18
   def map[A, B](as: List[A])(f: A => B): List[B] = foldRight(as, Nil:List[B])((x, y) => Cons(f(x), y))
 
@@ -41,8 +47,12 @@ object List {
     case Cons(h, t) if f(h) => Cons(h, filter(t)(f))
     case Cons(h, t) => filter(t)(f)
   }
+
+  // practice 3.20
+  def flatMap[A, B](as:List[A])(f: A => List[B]):List[B] =
+  foldRight(as, Nil:List[B])((x, y) => List.append(f(x), y))
 }
 
 // verify
-val list:List[Int] = List(1,2,3,4,5)
-List.filter(list)((x) => x%2 == 0)
+val list:List[Int] = List(1,2,3)
+List.flatMap(list)(i => List(i, i))

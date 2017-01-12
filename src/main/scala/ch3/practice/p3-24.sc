@@ -32,8 +32,14 @@ object List {
     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
   }
 
+  // practice 3.14
+  def append[A](fs: List[A], bs: List[A]): List[A] = foldRight(fs, bs)((x, y) => Cons(x, y))
+
+  // practice 3.15
+  def flatten[A](fs: List[List[A]]): List[A] = foldRight(fs, Nil: List[A])((x, y) => List.append(x, y))
+
   // practice 3.18
-  def map[A, B](as: List[A])(f: A => B): List[B] = foldRight(as, Nil:List[B])((x, y) => Cons(f(x), y))
+  def map[A, B](as: List[A])(f: A => B): List[B] = foldRight(as, Nil: List[B])((x, y) => Cons(f(x), y))
 
   // practice 3.19
   def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
@@ -41,8 +47,29 @@ object List {
     case Cons(h, t) if f(h) => Cons(h, filter(t)(f))
     case Cons(h, t) => filter(t)(f)
   }
+
+  // practice 3.20
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+  foldRight(as, Nil: List[B])((x, y) => List.append(f(x), y))
+
+  // practice 3.24
+  def hasSubsequence[A](sup:List[A], sub:List[A]):Boolean = {
+    def loop[A](as: List[A], bs: List[A]): Boolean =
+      (as, bs) match {
+        case (Cons(x, xt), Cons(y, yt)) if x == y => loop(xt, yt)
+        case (_, Nil) => true
+        case _ => false
+      }
+    sup match {
+      case Cons(h, t) if loop(Cons(h, t), sub) => true
+      case Cons(h, t) => hasSubsequence(t, sub)
+      case _ => false
+    }
+  }
 }
 
 // verify
-val list:List[Int] = List(1,2,3,4,5)
-List.filter(list)((x) => x%2 == 0)
+val supList:List[Int] = List(1,2,3,4)
+val subList:List[Int] = List(1,2)
+
+List.hasSubsequence(supList, subList)
