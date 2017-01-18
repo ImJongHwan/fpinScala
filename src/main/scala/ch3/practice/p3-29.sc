@@ -36,4 +36,7 @@ object Tree {
     case Branch(l, r) => Branch(map(l)(f), map(r)(f))
     case Leaf(x) => Leaf(f(x))
   }
+
+  // practice 3.29
+  def fold[A](a: Tree[A], )
 }
